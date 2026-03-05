@@ -46,7 +46,7 @@ function QRPreview({ qrValue }) {
 
     // TITLE
     ctx.fillStyle = "#111";
-    ctx.font = "bold 40px Inter, Arial";
+    ctx.font = "bold 100px Inter, Arial";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
 
@@ -70,7 +70,7 @@ function QRPreview({ qrValue }) {
 
     // SUBTITLE
     ctx.fillStyle = "#666";
-    ctx.font = "24px Inter, Arial";
+    ctx.font = "50px Inter, Arial";
 
     const subtitleY = qrY + qrSize + 120;
 
@@ -122,7 +122,7 @@ function QRPreview({ qrValue }) {
 
       {frameEnabled && (
         <div className="bg-white border border-zinc-200 rounded-2xl p-6 text-center shadow-sm max-w-[320px] w-full">
-          <h3 className="text-lg font-semibold mb-4">{title}</h3>
+          <h3 className="text-2xl font-semibold mb-4">{title}</h3>
 
           <div className="flex justify-center">
             <QRCodeCanvas
@@ -133,7 +133,7 @@ function QRPreview({ qrValue }) {
             />
           </div>
 
-          <p className="text-sm text-zinc-500 mt-4">{subtitle}</p>
+          <p className="text-md font-semibold text-zinc-700 mt-4">{subtitle}</p>
         </div>
       )}
 
