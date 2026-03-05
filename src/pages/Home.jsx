@@ -1,0 +1,101 @@
+import { useState, useRef } from "react";
+import Navbar from "../components/Navbar";
+import Header from "../components/Header";
+import QRInput from "../components/QRInput";
+import QRPreview from "../components/QRPreview";
+
+function Home() {
+  const [link, setLink] = useState("");
+  const [qrValue, setQrValue] = useState("");
+
+  const previewRef = useRef(null);
+
+  const generateQR = () => {
+    if (!link) return;
+
+    setQrValue(link);
+
+    // Scroll to QR preview smoothly
+    setTimeout(() => {
+      previewRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    }, 100);
+  };
+
+  const downloadQR = () => {
+    const qrCanvas = document.getElementById("qrCodeCanvas");
+
+    if (!qrCanvas) return;
+
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+
+    const qrSize = 260;
+    const padding = 40;
+    const titleHeight = 60;
+    const footerHeight = 40;
+
+    canvas.width = qrSize + padding * 2;
+    canvas.height = qrSize + padding * 2 + titleHeight + footerHeight;
+
+    // Background
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Title
+    ctx.fillStyle = "#111";
+    ctx.font = "bold 22px Inter, Arial";
+    ctx.textAlign = "center";
+    ctx.fillText("Scan this QR Code", canvas.width / 2, 35);
+
+    // Draw QR
+    ctx.drawImage(qrCanvas, padding, titleHeight, qrSize, qrSize);
+
+    // Footer
+    ctx.font = "14px Inter, Arial";
+    ctx.fillStyle = "#666";
+    ctx.fillText(
+      "Generated with QR Generator",
+      canvas.width / 2,
+      canvas.height - 10,
+    );
+
+    const pngUrl = canvas
+      .toDataURL("image/png")
+      .replace("image/png", "image/octet-stream");
+
+    const downloadLink = document.createElement("a");
+
+    downloadLink.href = pngUrl;
+    downloadLink.download = "qr-code.png";
+
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-100 via-blue-50 to-indigo-100">
+      <Navbar />
+
+      <div className="max-w-6xl mx-auto px-6 pt-20 pb-20">
+        <Header />
+
+        <div className="flex justify-center mt-16">
+          <div className="max-w-md w-full bg-white border border-slate-200 rounded-3xl shadow-lg hover:shadow-xl transition duration-300 p-10">
+            <QRInput link={link} setLink={setLink} generateQR={generateQR} />
+
+            {/* QR Preview with scroll reference */}
+            <div ref={previewRef}>
+              <QRPreview qrValue={qrValue} downloadQR={downloadQR} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default Home;
