@@ -130,53 +130,51 @@ function QRPreview({ qrValue }) {
 
     // DOWNLOAD IMAGE
     const link = document.createElement("a");
-    link.download = "qr-poster.png";
+    link.download = "qr-framed.png";
     link.href = canvas.toDataURL("image/png");
     link.click();
   };
 
   return (
-    <div className="mt-8 flex flex-col items-center gap-5 w-full">
-      {/* TITLE + SUBTITLE INPUTS */}
+    <>
+      <div className="mt-1 flex flex-col items-center gap-5 w-full">
+        {/* TITLE + SUBTITLE INPUTS */}
+        {frameEnabled && (
+          <div className="w-full flex flex-col gap-4">
+            {/* TITLE FIELD */}
+            <div className="flex flex-col gap-1">
+              <label className="text-sm font-medium text-zinc-700">Title</label>
 
-      {frameEnabled && (
-        <div className="w-full flex flex-col gap-3">
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="Frame title"
-            className="w-full border border-zinc-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-indigo-500"
-          />
+              <input
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder="Scan this QR Code"
+                className="w-full border border-zinc-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-indigo-500"
+              />
+            </div>
 
-          <input
-            type="text"
-            value={subtitle}
-            onChange={(e) => setSubtitle(e.target.value)}
-            placeholder="Frame subtitle"
-            className="w-full border border-zinc-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-indigo-500"
-          />
-        </div>
-      )}
+            {/* SUBTITLE FIELD */}
+            <div className="flex flex-col gap-1">
+              <label className="text-sm font-medium text-zinc-700">
+                Subtitle
+              </label>
 
-      {/* QR PREVIEW */}
+              <input
+                type="text"
+                value={subtitle}
+                onChange={(e) => setSubtitle(e.target.value)}
+                placeholder="Open the link"
+                className="w-full border border-zinc-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-indigo-500"
+              />
+            </div>
+          </div>
+        )}
 
-      {!frameEnabled && (
-        <div className="bg-white border border-zinc-200 rounded-xl p-6">
-          <QRCodeCanvas
-            id="qrCodeCanvas"
-            value={qrValue}
-            size={200}
-            includeMargin
-          />
-        </div>
-      )}
+        {/* QR PREVIEW */}
 
-      {frameEnabled && (
-        <div className="bg-white border border-zinc-200 rounded-2xl p-6 text-center shadow-sm max-w-[320px] w-full">
-          <h3 className="text-2xl font-semibold mb-4">{title}</h3>
-
-          <div className="flex justify-center">
+        {!frameEnabled && (
+          <div className="bg-white border border-zinc-200 rounded-xl p-6">
             <QRCodeCanvas
               id="qrCodeCanvas"
               value={qrValue}
@@ -184,54 +182,71 @@ function QRPreview({ qrValue }) {
               includeMargin
             />
           </div>
+        )}
 
-          <p className="text-md font-semibold text-zinc-700 mt-4">{subtitle}</p>
-        </div>
-      )}
+        {frameEnabled && (
+          <div className="bg-white border border-zinc-200 rounded-2xl p-6 text-center shadow-sm max-w-[320px] w-full">
+            <h3 className="text-2xl font-semibold mb-4">{title}</h3>
 
-      {/* ADD FRAME BUTTON */}
+            <div className="flex justify-center">
+              <QRCodeCanvas
+                id="qrCodeCanvas"
+                value={qrValue}
+                size={200}
+                includeMargin
+              />
+            </div>
 
-      {!frameEnabled && (
-        <button
-          onClick={() => setFrameEnabled(true)}
-          className="text-sm border border-zinc-200 px-4 py-2 rounded-lg hover:bg-zinc-50 transition"
-        >
-          Add Frame
-        </button>
-      )}
+            <p className="text-md font-semibold text-zinc-700 mt-4">
+              {subtitle}
+            </p>
+          </div>
+        )}
 
-      {/* DOWNLOAD BUTTONS */}
+        {/* ADD FRAME BUTTON */}
 
-      {!frameEnabled && (
-        <button
-          onClick={downloadWithoutFrame}
-          className="flex items-center gap-2 text-sm font-medium border border-zinc-200 px-4 py-2 rounded-lg hover:bg-zinc-50 transition"
-        >
-          <Download size={16} />
-          Download QR
-        </button>
-      )}
+        {!frameEnabled && (
+          <button
+            onClick={() => setFrameEnabled(true)}
+            className="text-sm border border-zinc-200 px-4 py-2 rounded-lg hover:bg-zinc-50 transition"
+          >
+            Add Frame
+          </button>
+        )}
 
-      {frameEnabled && (
-        <div className="flex gap-3">
+        {/* DOWNLOAD BUTTONS */}
+
+        {!frameEnabled && (
           <button
             onClick={downloadWithoutFrame}
             className="flex items-center gap-2 text-sm font-medium border border-zinc-200 px-4 py-2 rounded-lg hover:bg-zinc-50 transition"
           >
             <Download size={16} />
-            Download Without Frame
+            Download QR
           </button>
+        )}
 
-          <button
-            onClick={downloadWithFrame}
-            className="flex items-center gap-2 text-sm font-medium bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition"
-          >
-            <Download size={16} />
-            Download With Frame
-          </button>
-        </div>
-      )}
-    </div>
+        {frameEnabled && (
+          <div className="flex gap-3">
+            <button
+              onClick={downloadWithoutFrame}
+              className="flex items-center gap-2 text-sm font-medium border border-zinc-200 px-4 py-2 rounded-lg hover:bg-zinc-50 transition"
+            >
+              <Download size={16} />
+              Download Without Frame
+            </button>
+
+            <button
+              onClick={downloadWithFrame}
+              className="flex items-center gap-2 text-sm font-medium bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition"
+            >
+              <Download size={16} />
+              Download With Frame
+            </button>
+          </div>
+        )}
+      </div>
+    </>
   );
 }
 

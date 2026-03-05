@@ -83,15 +83,24 @@ function Home() {
       <div className="max-w-6xl mx-auto px-6 pt-20 pb-20">
         <Header />
 
-        <div className="flex justify-center mt-16">
-          <div className="max-w-md w-full bg-white border border-slate-200 rounded-3xl shadow-lg hover:shadow-xl transition duration-300 p-10">
+        <div className="mt-16 flex flex-col items-center gap-6">
+          {/* INPUT CARD */}
+          <div className="max-w-md w-full bg-white border border-slate-200 rounded-3xl shadow-md p-8">
             <QRInput link={link} setLink={setLink} generateQR={generateQR} />
+          </div>
 
-            {/* QR Preview with scroll reference */}
-            <div ref={previewRef}>
+          {/* PREVIEW CARD */}
+          {qrValue && (
+            <div
+              ref={previewRef}
+              className="max-w-md w-full bg-white border border-slate-200 rounded-3xl shadow-md p-8"
+            >
+              <h3 className="text-sm font-medium text-zinc-500 mb-6 text-center">
+                Poster Preview
+              </h3>
               <QRPreview qrValue={qrValue} downloadQR={downloadQR} />
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>
