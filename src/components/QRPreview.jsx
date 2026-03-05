@@ -31,8 +31,8 @@ function QRPreview({ qrValue }) {
 
   // DOWNLOAD WITH FRAME
   const downloadWithFrame = async () => {
-    const width = 750;
-    const height = 1000;
+    const width = 1400;
+    const height = 1800;
 
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
@@ -41,21 +41,62 @@ function QRPreview({ qrValue }) {
     canvas.height = height;
 
     // background
-    ctx.fillStyle = "#ffffff";
+    ctx.fillStyle = "#f5f5f5";
     ctx.fillRect(0, 0, width, height);
+
+    const padding = 120;
+
+    const qrSize = 700;
+
+    // TEXT WRAP
+    const wrapText = (ctx, text, maxWidth) => {
+      const words = text.split(" ");
+      const lines = [];
+      let line = "";
+
+      words.forEach((word) => {
+        const testLine = line + word + " ";
+        const testWidth = ctx.measureText(testLine).width;
+
+        if (testWidth > maxWidth && line !== "") {
+          lines.push(line);
+          line = word + " ";
+        } else {
+          line = testLine;
+        }
+      });
+
+      lines.push(line);
+      return lines;
+    };
 
     // TITLE
     ctx.fillStyle = "#111";
     ctx.font = "bold 100px Inter, Arial";
     ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
 
-    const titleY = 120;
-    ctx.fillText(title, width / 2, titleY);
+    const titleLines = wrapText(ctx, title, width - padding * 2);
 
-    // QR SIZE
-    const qrSize = 400;
+    const titleStartY = 300;
 
+    titleLines.forEach((line, i) => {
+      ctx.fillText(line, width / 2, titleStartY + i * 90);
+    });
+
+    // QR CARD BACKGROUND
+    const qrCardSize = qrSize + 120;
+    const qrCardX = (width - qrCardSize) / 2;
+    const qrCardY = 500;
+
+    ctx.fillStyle = "#ffffff";
+    ctx.shadowColor = "rgba(0,0,0,0.08)";
+    ctx.shadowBlur = 30;
+
+    ctx.fillRect(qrCardX, qrCardY, qrCardSize, qrCardSize);
+
+    ctx.shadowBlur = 0;
+
+    // QR CODE
     const qrCanvas = document.createElement("canvas");
 
     await QRCode.toCanvas(qrCanvas, qrValue, {
@@ -64,19 +105,23 @@ function QRPreview({ qrValue }) {
     });
 
     const qrX = (width - qrSize) / 2;
-    const qrY = 300;
+    const qrY = qrCardY + 60;
 
     ctx.drawImage(qrCanvas, qrX, qrY, qrSize, qrSize);
 
     // SUBTITLE
     ctx.fillStyle = "#666";
-    ctx.font = "50px Inter, Arial";
+    ctx.font = "75px Inter, Arial";
 
-    const subtitleY = qrY + qrSize + 120;
+    const subtitleLines = wrapText(ctx, subtitle, width - padding * 2);
 
-    ctx.fillText(subtitle, width / 2, subtitleY);
+    const subtitleStartY = qrCardY + qrCardSize + 220;
 
-    // download
+    subtitleLines.forEach((line, i) => {
+      ctx.fillText(line, width / 2, subtitleStartY + i * 60);
+    });
+
+    // DOWNLOAD
     const link = document.createElement("a");
     link.download = "qr-poster.png";
     link.href = canvas.toDataURL("image/png");
