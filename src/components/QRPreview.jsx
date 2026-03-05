@@ -40,15 +40,22 @@ function QRPreview({ qrValue }) {
     canvas.width = width;
     canvas.height = height;
 
-    // background
+    // BACKGROUND
     ctx.fillStyle = "#f5f5f5";
     ctx.fillRect(0, 0, width, height);
 
-    const padding = 120;
+    // POSTER BORDER
+    ctx.lineWidth = 10;
+    ctx.strokeStyle = "#0A0E15";
 
+    ctx.beginPath();
+    ctx.roundRect(40, 40, width - 80, height - 80);
+    ctx.stroke();
+
+    const padding = 120;
     const qrSize = 700;
 
-    // TEXT WRAP
+    // TEXT WRAP FUNCTION
     const wrapText = (ctx, text, maxWidth) => {
       const words = text.split(" ");
       const lines = [];
@@ -118,10 +125,10 @@ function QRPreview({ qrValue }) {
     const subtitleStartY = qrCardY + qrCardSize + 220;
 
     subtitleLines.forEach((line, i) => {
-      ctx.fillText(line, width / 2, subtitleStartY + i * 60);
+      ctx.fillText(line, width / 2, subtitleStartY + i * 80);
     });
 
-    // DOWNLOAD
+    // DOWNLOAD IMAGE
     const link = document.createElement("a");
     link.download = "qr-poster.png";
     link.href = canvas.toDataURL("image/png");
