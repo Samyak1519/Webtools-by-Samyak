@@ -1,6 +1,6 @@
-import { useState, useRef } from "react";
-import Navbar from "../components/Navbar";
+import { useRef, useState } from "react";
 import Header from "../components/Header";
+import Navbar from "../components/Navbar";
 import QRInput from "../components/QRInput";
 import QRPreview from "../components/QRPreview";
 
@@ -85,7 +85,7 @@ function Home() {
 
         <div className="mt-16 flex flex-col items-center gap-6">
           {/* INPUT CARD */}
-          <div className="max-w-md w-full bg-white border border-slate-200 rounded-3xl shadow-md p-8">
+          <div className="max-w-lg w-full bg-white border border-slate-200 rounded-3xl shadow-md p-8">
             <QRInput link={link} setLink={setLink} generateQR={generateQR} />
           </div>
 
@@ -93,7 +93,7 @@ function Home() {
           {qrValue && (
             <div
               ref={previewRef}
-              className="max-w-md w-full bg-white border border-slate-200 rounded-3xl shadow-md p-8"
+              className="max-w-lg w-full bg-white border border-slate-200 rounded-3xl shadow-md p-8"
             >
               <h3 className="text-sm font-medium text-zinc-500 mb-6 text-center">
                 Poster Preview

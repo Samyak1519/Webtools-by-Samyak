@@ -1,7 +1,7 @@
 import { Download } from "lucide-react";
+import QRCode from "qrcode";
 import { QRCodeCanvas } from "qrcode.react";
 import { useState } from "react";
-import QRCode from "qrcode";
 
 function QRPreview({ qrValue }) {
   const [frameEnabled, setFrameEnabled] = useState(false);
