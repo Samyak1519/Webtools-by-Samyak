@@ -208,7 +208,7 @@ function QRPreview({ qrValue }) {
         {!frameEnabled && (
           <button
             onClick={() => setFrameEnabled(true)}
-            className="text-sm border border-zinc-200 px-4 py-2 rounded-lg hover:bg-zinc-50 transition"
+            className="text-sm border border-zinc-200 px-4 py-2 rounded-lg hover:bg-zinc-50 transition cursor-pointer"
           >
             Add Frame
           </button>
@@ -219,7 +219,7 @@ function QRPreview({ qrValue }) {
         {!frameEnabled && (
           <button
             onClick={downloadWithoutFrame}
-            className="flex items-center gap-2 text-sm font-medium border border-zinc-200 px-4 py-2 rounded-lg hover:bg-zinc-50 transition"
+            className="flex items-center gap-2 text-sm font-medium border border-zinc-200 px-4 py-2 rounded-lg hover:bg-zinc-50 transition cursor-pointer"
           >
             <Download size={16} />
             Download QR
@@ -230,7 +230,7 @@ function QRPreview({ qrValue }) {
           <div className="flex gap-3">
             <button
               onClick={downloadWithoutFrame}
-              className="flex items-center gap-2 text-sm font-medium border border-zinc-200 px-4 py-2 rounded-lg hover:bg-zinc-50 transition"
+              className="flex items-center gap-2 text-sm font-medium border border-zinc-200 px-4 py-2 rounded-lg hover:bg-zinc-50 transition cursor-pointer"
             >
               <Download size={16} />
               Download Without Frame
@@ -238,7 +238,7 @@ function QRPreview({ qrValue }) {
 
             <button
               onClick={downloadWithFrame}
-              className="flex items-center gap-2 text-sm font-medium bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition"
+              className="flex items-center gap-2 text-sm font-medium bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition cursor-pointer"
             >
               <Download size={16} />
               Download With Frame
